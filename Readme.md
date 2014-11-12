@@ -24,3 +24,10 @@ The default configuration for this plugin uses some HTTPUnit driver for Selenium
 I've used PhantomJS before, and hence prefer to use that.  Normally you'd have to install Phantom on each environment
 you plan to use, but [phantomjs-maven-plugin](https://github.com/klieber/phantomjs-maven-plugin) takes care of that
 automatically when you run Maven.
+
+## Items to explore
+
+- Some notion of managing modules w/in our own code, like require.js
+- Some framework to break the UI into distinct, composable views backed by data in model classes, ala Backbone.js
+- Some basic library support, like underscore.js
+- Some means of templating HTML, like handlebars.js
