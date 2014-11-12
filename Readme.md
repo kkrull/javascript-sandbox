@@ -85,7 +85,9 @@ For further reading, see:
 
 ## Items to explore
 
+- How to get our hands on source for other libraries: explicitly declare in script tags, or use webjars?
 - Some framework to break the UI into distinct, composable views backed by data in model classes, ala Backbone.js
 - Some basic library support, like underscore.js
 - Some means of creating HTML from templates, like handlebars.js
 - Combination and minification for production mode, to reduce requests down to 1 instead of 1 per .js file.
+- Maven project structure / configuration needed for packaging (archetype used src/main/javascript instead of src/main/webapp).
