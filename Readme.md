@@ -73,6 +73,10 @@ Popular client-side solutions include:
   Maven and by Backbone.  The authors claim that you can add this to legacy projects without modifying existing source.
 - [HeadJS](http://headjs.com/)
 
+For a small UI that's just starting out, it may be sufficient to explicitly load each source file with its own
+`<script>` tag in the main page.  The Jasmine plugin for Maven loads all source and test files it finds in their
+respective directories, so there's nothing preventing programmers from making multiple source files.
+
 For further reading, see:
 
 - [Single Page App Book](http://singlepageappbook.com/maintainability1.html)

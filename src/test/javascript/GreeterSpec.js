@@ -1,13 +1,25 @@
-describe('sayHello', function() {
-  describe('given no name', function() {
-    it('does not freak out', function() {
-      var greetNobody = function() { sayHello(undefined); };
-      expect(greetNobody).not.toThrow();
+describe('Greeter', function() {
+  describe('constructor', function() {
+    describe('when you forget to use new', function() {
+        it('throws an error', function() {
+          var invokeDirectly = function() { Greeter(); }
+          expect(invokeDirectly).toThrow('Greeter constructor must be called with new');
+      });
     });
   });
-  describe('given a name', function() {
-    it('returns a greeting to the person with the specified name', function() {
-      expect(sayHello('Frank')).toEqual('Hello, Frank');
+
+  describe('sayHello', function() {
+    var subject = new Greeter();
+
+    describe('given no name', function() {
+      it('greets the world', function() {
+        expect(subject.sayHello()).toEqual('Hello, world');
+      });
+    });
+    describe('given a name', function() {
+      it('greets the person with the specified name', function() {
+        expect(subject.sayHello('Frank')).toEqual('Hello, Frank');
+      });
     });
   });
 });
