@@ -88,6 +88,13 @@ For further reading, see:
 The simplest approach with third party libraries is to check them in to version control along with source files and
 reference these files like any other source file.
 
+[Webjars](http://www.webjars.org/documentation) can be configured for Maven projects (see "Servlet 3" section) in order
+to manage client-side dependencies in a similar fashion to how server-side dependencies are managed.  There's also a
+[sample project](https://github.com/webjars/sample-jetty_war) to help you get started.
+
+While this looks like a good idea for the long-term, it will add more complexity than is initially warranted for small
+projects.
+
 ## Items to explore
 
 - How to get our hands on source for other libraries: explicitly declare in script tags, or use webjars?
