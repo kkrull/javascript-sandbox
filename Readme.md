@@ -80,6 +80,16 @@ This looks like a good idea for the long-term (and it's supported by the jasmine
 complexity than is initially warranted for small projects.
 
 
+### IntelliJ integration
+
+IntelliJ's features like auto-complete can use source for third party libraries:
+
+- whose source is located in the project (just like any other file)
+- made available through an explicitly-defined Maven webjar dependency.
+
+`org.webjars.jasmine` is used by the Jasmine plugin, and hence is a plugin dependency (not a source code dependency).
+It scope is listed as `provided` in the POM since the plugin may be using its own version.
+
 ## Modular source code (a.k.a. combining and minimizing)
 
 Packages offer a variety of services, such as minifying and combining or are "script loaders".  They all allow you to
