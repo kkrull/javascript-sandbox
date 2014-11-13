@@ -83,6 +83,11 @@ For further reading, see:
 - [Another blog post](http://www.gayadesign.com/front-end/better-javascript-dependency-management-with-browserify/)
   discusses the topic from a server-side perspective, such as would be seen in a node.js / CommonJS environment.
 
+## Third party libraries
+
+The simplest approach with third party libraries is to check them in to version control along with source files and
+reference these files like any other source file.
+
 ## Items to explore
 
 - How to get our hands on source for other libraries: explicitly declare in script tags, or use webjars?
