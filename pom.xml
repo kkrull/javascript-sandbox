@@ -8,7 +8,7 @@
   <packaging>war</packaging>
 
   <name>JavaScript sandbox</name>
-  <url>http://github.com/searls/jasmine-maven-plugin</url>
+  <url>http://github.com/kkrull/javascript-sandbox</url>
 
   <build>
     <plugins>
@@ -38,6 +38,9 @@
               <goal>test</goal>
             </goals>
             <configuration>
+              <preloadSources>
+                <source>vendor/underscore-1.7.0.js</source>
+              </preloadSources>
               <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
               <webDriverCapabilities>
                 <capability>
@@ -57,9 +60,6 @@
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
           <webResources>
-            <resource>
-              <directory>lib/main/javascript</directory>
-            </resource>
             <resource>
               <directory>src/main/javascript</directory>
             </resource>
