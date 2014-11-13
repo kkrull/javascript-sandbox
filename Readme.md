@@ -127,6 +127,5 @@ For further reading, see:
 
 ## Items to explore
 
-- How to get our hands on source for other libraries: explicitly declare in script tags, or use webjars?
 - Some framework to break the UI into distinct, composable views backed by data in model classes, ala Backbone.js
 - Some means of creating HTML from templates, like handlebars.js

@@ -4,6 +4,7 @@ var Greeter = function() {
   }
 }
 
-Greeter.prototype.sayHello = function(name) {
+Greeter.prototype.sayHello = function(person) {
+  var name = person && person.get('firstName');
   return 'Hello, ' + (name || 'world');
 }
