@@ -1,5 +1,8 @@
 describe('Test environment', function() {
-  it('can use external libraries', function() {
+  it('includes Backbone', function() {
+    expect(Backbone).toBeDefined();
+  });
+  it('includes Underscore', function() {
     expect(_).toBeDefined();
   });
 });

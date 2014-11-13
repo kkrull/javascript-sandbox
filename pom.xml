@@ -37,20 +37,21 @@
             <goals>
               <goal>test</goal>
             </goals>
-            <configuration>
-              <preloadSources>
-                <source>vendor/underscore-1.7.0.js</source>
-              </preloadSources>
-              <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
-              <webDriverCapabilities>
-                <capability>
-                  <name>phantomjs.binary.path</name>
-                  <value>${phantomjs.binary}</value>
-                </capability>
-              </webDriverCapabilities>
-            </configuration>
           </execution>
         </executions>
+        <configuration>
+          <preloadSources>
+            <source>vendor/underscore-1.7.0.js</source>
+            <source>vendor/backbone-1.1.2.js</source>
+          </preloadSources>
+          <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+          <webDriverCapabilities>
+            <capability>
+              <name>phantomjs.binary.path</name>
+              <value>${phantomjs.binary}</value>
+            </capability>
+          </webDriverCapabilities>
+        </configuration>
       </plugin>
 
       <plugin>
