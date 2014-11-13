@@ -7,7 +7,6 @@ describe('Greeter', function() {
       });
     });
   });
-
   describe('sayHello', function() {
     var subject = new Greeter();
 
