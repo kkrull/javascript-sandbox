@@ -128,4 +128,12 @@ For further reading, see:
 ## Items to explore
 
 - Some framework to break the UI into distinct, composable views backed by data in model classes, ala Backbone.js
+  * jasmine-jquery for more specific selectors and matchers
 - Some means of creating HTML from templates, like handlebars.js
+  * Where to put the template files?
+  * How to get Jasmine's web server to load these files?  [This blog](http://addyosmani.github.io/backbone-fundamentals/#jasmine)
+    suggests `jasmine.getFixtures().fixturesPath = 'your custom path'`
+
+Future work:
+
+- webjars for JavaScript libraries

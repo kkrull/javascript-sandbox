@@ -5,6 +5,7 @@ describe('Test environment', function() {
     });
     it('includes jQuery', function() {
       expect(jQuery).toBeDefined();
+      expect($).toBeDefined();
     });
     it('includes Underscore', function() {
       expect(_).toBeDefined();
@@ -12,12 +13,16 @@ describe('Test environment', function() {
   });
 
   describe('jasmine', function() {
+    afterEach(function() {
+      $('#hook').remove();
+    });
     it('can add elements to the DOM', function() {
-      $('body').append($('<div id="kdk">'));
-      expect($('#kdk')).toBeDefined();
-
-      $('#kdk').remove();
-      expect($('#kdk')).not.toBeDefined();
+      $('body').append($('<div id="hook">'));
+      expect($('#hook')[0]).toBeDefined();
+    });
+    it('can remove elements from the DOM', function() {
+      $('#hook').remove();
+      expect($('#hook')[0]).not.toBeDefined();
     });
   });
 });
