@@ -2,13 +2,26 @@
 
 This project is a place for me to experiment with how to do JavaScript development in a Maven project.
 
-## Maven structure
+## Maven project structure
 
 This project was generated using `jasmine-archetype`:
 
 ```
 mvn archetype:generate -DarchetypeGroupId=com.github.searls -DarchetypeArtifactId=jasmine-archetype -DarchetypeVersion=1.3.1.5
 ```
+
+This puts JavaScript files at `src/main/javascript` instead of the default `src/main/webapp` defined in the
+[standard directory layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html).
+I've followed suit and included third-party libraries like Underscore.js in `lib/main/javascript`.
+
+For `mvn war:war` to include these sources in created WAR file, entries have to be added to `maven-war-plugin`'s
+POM configuration under `webResources/resource` for `src/main/javascript` and `lib/main/javascript`.  These directories
+get copied straight into the WAR, such that files related by feature get placed into the same subdirectory (i.e.
+`src/main/javascript/greeting/Greeter.js` and `src/main/css/greeting/greeting.css` both get copied to `greeting/` in the
+resulting WAR file.
+
+As a result, it may be only be necessary to have `WEB-INF/web.xml` and index pages in `src/main/webapp` instead of
+mixing up JavaScript, CSS, JSP, and third party libraries under a lower level of nesting.
 
 ## Testing
 
