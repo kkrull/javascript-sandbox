@@ -60,7 +60,7 @@ This puts JavaScript files at `src/main/javascript` instead of the default `src/
 
 For `mvn war:war` to include these sources in created WAR file, an entry for `src/main/javascript` has to be added to
 `maven-war-plugin`'s configuration under `webResources/resource`.  These directories get copied straight into the WAR,
-such that files related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/Greeter.js`
+such that files related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/greeter.js`
 and `src/main/css/greeting/greeting.css` both get copied to `greeting/` in the resulting WAR file).
 
 As a result, it may be only be necessary to have `WEB-INF/web.xml` and index pages in `src/main/webapp` instead of
