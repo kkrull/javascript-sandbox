@@ -40,6 +40,12 @@
           </execution>
         </executions>
         <configuration>
+          <additionalContexts>
+            <context>
+              <contextRoot>webapp</contextRoot>
+              <directory>${project.basedir}/src/main/webapp</directory>
+            </context>
+          </additionalContexts>
           <preloadSources>
             <!-- Production libraries -->
             <source>vendor/jquery-2.1.1.js</source>

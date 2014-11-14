@@ -13,12 +13,14 @@ offers two modes of operation:
 - As part of `mvn test`: The tests run headless (i.e. in an environment managed at the command-line, not in a browser).
   This is suitable for use in regular Maven workflows, including those on CI servers.
 
-Need more help?  Try `mvn jasmine:help -Ddetail=true`.
-
 The default configuration for this plugin uses some HTTPUnit driver for Selenium, which I'm not so familiar with.
 I've used PhantomJS before, and hence prefer to use that.  Normally you'd have to install Phantom on each environment
 you plan to use, but [phantomjs-maven-plugin](https://github.com/klieber/phantomjs-maven-plugin) takes care of that
 automatically when you run Maven.
+
+Need more help?  Try `mvn jasmine:help -Ddetail=true` and `mvn jasmine:bdd -X`.  There are also lots of
+[examples](https://github.com/searls/jasmine-maven-plugin/tree/master/src/test/resources/examples) of how to use
+jasmine-maven-plugin.
 
 ### Configuration
 
