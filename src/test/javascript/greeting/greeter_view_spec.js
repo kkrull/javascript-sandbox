@@ -2,8 +2,6 @@ describe('GreeterView', function() {
   function domElement() { return $('#hook')[0];}
 
   beforeEach(function() {
-    //TODO KDK: Find a way put the template somewhere more traditional, like src/main/webapp.  Then find a way to get jasmine-maven-plugin to serve up this additional context in a manner similar to and compatible with production.
-    jasmine.getFixtures().fixturesPath = 'src';
     loadFixtures('templates.html');
     $('body').append($('<div id="hook">'));
   });
