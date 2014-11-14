@@ -1,7 +1,5 @@
 describe('GreeterView', function() {
-  function domElement() {
-    return $('#hook')[0];
-  }
+  function domElement() { return $('#hook')[0];}
 
   beforeEach(function() {
     $('body').append($('<div id="hook">'));
@@ -19,18 +17,14 @@ describe('GreeterView', function() {
     });
 
     describe('.remove', function() {
-      beforeEach(function() {
-        this.subject.remove();
-      });
+      beforeEach(function() {this.subject.remove(); });
       it('removes the element from the DOM', function() {
         expect(domElement()).not.toBeDefined();
       });
     });
 
     describe('.render', function() {
-      beforeEach(function() {
-        this.returned = this.subject.render();
-      });
+      beforeEach(function() { this.returned = this.subject.render(); });
       it('renders the template', function() {
         expect($('div h2').text()).toEqual('Hello, Frank');
       });

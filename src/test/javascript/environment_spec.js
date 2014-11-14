@@ -12,17 +12,22 @@ describe('Test environment', function() {
     });
   });
 
-  describe('jasmine', function() {
-    afterEach(function() {
-      $('#hook').remove();
-    });
-    it('can add elements to the DOM', function() {
-      $('body').append($('<div id="hook">'));
+  describe('jasmine test environment', function() {
+    function addHook() { $('body').append($('<div id="hook">')); }
+
+    function removeHook() { $('#hook').remove(); }
+
+    afterEach(function() { removeHook(); });
+    
+    it('can add elements to the DOM and remove them again', function() {
+      addHook();
       expect($('#hook')[0]).toBeDefined();
-    });
-    it('can remove elements from the DOM', function() {
-      $('#hook').remove();
+      removeHook();
       expect($('#hook')[0]).not.toBeDefined();
+    });
+    xit('can load HTML templates', function() {
+      jasmine.getFixtures().fixturesPath = '.'; //TODO KDK: May not need to do this at all; want to use a file from production
+      expect($('#greeter_template')[0]).toBeDefined();
     });
   });
 });
