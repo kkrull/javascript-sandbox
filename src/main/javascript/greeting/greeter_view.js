@@ -1,9 +1,10 @@
 var GreeterView = Backbone.View.extend({
+  initialize: function() {
+    var source = '<h2>Hello, {{firstName}}</h2>';
+    this.template = Handlebars.compile(source);
+  },
   render: function() {
-    var innerElement = $('<h2>');
-    var greeting = 'Hello, ' + this.model.get('firstName');
-    innerElement.text(greeting);
-    this.$el.html(innerElement);
+    this.$el.html(this.template(this.model.attributes));
     return this;
   }
 });

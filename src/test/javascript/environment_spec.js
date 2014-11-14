@@ -3,6 +3,9 @@ describe('Test environment', function() {
     it('includes Backbone', function() {
       expect(Backbone).toBeDefined();
     });
+    it('includes Handlebars', function() {
+      expect(Handlebars).toBeDefined();
+    });
     it('includes jasmine-jquery', function() {
       expect($('body')).toBeInDOM();
     });

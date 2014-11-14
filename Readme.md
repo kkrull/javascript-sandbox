@@ -131,15 +131,46 @@ For further reading, see:
   discusses the topic from a server-side perspective, such as would be seen in a node.js / CommonJS environment.
 
 
-## Items to explore
+## Separation of concerns (Backbone and Handlebars)
 
-- Some framework to break the UI into distinct, composable views backed by data in model classes, ala Backbone.js
-  * jasmine-jquery for more specific selectors and matchers
+[Backbone.js](http://backbonejs.org/) offers a means of separating client-side code into separate concerns of models,
+collections, and views.  It can be used as a tool to provide these abstractions where it is useful, but it can also be
+added one view / model / collection at a time to legacy projects without interfering with existing code.
+
+Backbone Models represent the JSON structure exchanged with the server.  Some points of interest:
+
+- Backbone handles the various kinds of RESTful HTTP requests necessary for CRUD operations on these entities when you
+  configure a `url` on the model or collection.
+- Models include default values, and can also perform client-side validation.
+- Model developers are encouraged to keep the [Law of Demeter](http://en.wikipedia.org/wiki/Law_of_Demeter) in mind by
+  adding model methods that decouple complex relationships from the particular JSON structure that happens to be used at
+  the time.  In my experience, these JSON structures change frequently, so it's good to have methods to DRY up
+  non-trivial traversals through the structure.
+
+Backbone Views represent some component seen in the UI.  They are bound to an HTML element in the DOM and are backed by
+a model or collection.  Backbone handles updating the DOM with the contents of the model when you implement a `render`
+method.  The HTML itself is rendered client-side - from an HTML template and an instance of a model - using
+[Handlebars.js](http://handlebarsjs.com/).
+
+Views generally follow these patterns:
+
+- Each view has an assigned HTML element, named `el` and wrapped/cached in jQuery via `$el`.
+- An `initialize` method loads the HTML template with jQuery and compiles it with Handlebars.
+- `render` uses this function returned from `Handlebars.compile` to convert a JavaScript object containing attributes of
+  interest and returns an HTML structure to attach to the DOM, then it attaches it to the DOM with `this.$el.html`.
+- Views can also attach event listeners to UI events.  If you do so, you have to be careful to preserve the meaning of
+  `this` in the context in which these event listener functions are called (i.e. it should still refer to the instance
+  of the view).  You do this by calling `_.bindAll` with the event listener method and an instance of the view in the
+  `initialize` method.
+
+For further reading, there's an [online book](http://addyosmani.github.io/backbone-fundamentals/) that describes
+development and testing with Backbone.
+
+
+## Future work
+
 - Some means of creating HTML from templates, like handlebars.js
   * Where to put the template files?
   * How to get Jasmine's web server to load these files?  [This blog](http://addyosmani.github.io/backbone-fundamentals/#jasmine)
     suggests `jasmine.getFixtures().fixturesPath = 'your custom path'`
-
-Future work:
-
-- webjars for JavaScript libraries
+- Use webjars to manage dependencies on JavaScript libraries without copying their source into source control.
