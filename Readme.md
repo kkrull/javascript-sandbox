@@ -85,7 +85,6 @@ to manage client-side dependencies in a similar fashion to how server-side depen
 This looks like a good idea for the long-term (and it's supported by the jasmine plugin), but it will add more
 complexity than is initially warranted for small projects.
 
-
 ### IntelliJ integration
 
 IntelliJ's features like auto-complete can use source for third party libraries:
@@ -95,6 +94,7 @@ IntelliJ's features like auto-complete can use source for third party libraries:
 
 `org.webjars.jasmine` is used by the Jasmine plugin, and hence is a plugin dependency (not a source code dependency).
 It scope is listed as `provided` in the POM since the plugin may be using its own version.
+
 
 ## Modular source code (a.k.a. combining and minimizing)
 
@@ -174,3 +174,5 @@ development and testing with Backbone.
   * How to get Jasmine's web server to load these files?  [This blog](http://addyosmani.github.io/backbone-fundamentals/#jasmine)
     suggests `jasmine.getFixtures().fixturesPath = 'your custom path'`
 - Use webjars to manage dependencies on JavaScript libraries without copying their source into source control.
+- JavaScript mocking libraries, such as SinonJS.
+- Shared examples and shared context in Jasmine specs.

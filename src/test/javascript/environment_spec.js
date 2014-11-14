@@ -31,5 +31,9 @@ describe('Test environment', function() {
       removeHook();
       expect($('#hook')).not.toBeInDOM();
     });
+    it('can load template files', function() {
+      loadFixtures('templates.html');
+      expect($('#greeter_template')).toExist();
+    });
   });
 });
