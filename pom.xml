@@ -55,6 +55,7 @@
 
             <!-- Test libraries -->
             <source>vendor/jasmine-jquery-1.7.0.js</source>
+            <source>helpers/environment.js</source>
           </preloadSources>
           <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
           <webDriverCapabilities>
