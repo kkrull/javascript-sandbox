@@ -1,6 +1,6 @@
 var GreeterView = Backbone.View.extend({
   initialize: function() {
-    var source = '<h2>Hello, {{firstName}}</h2>';
+    var source = $('#greeter_template').text();
     this.template = Handlebars.compile(source);
   },
   render: function() {

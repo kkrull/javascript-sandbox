@@ -32,7 +32,7 @@ describe('Test environment', function() {
       expect($('#hook')).not.toBeInDOM();
     });
     it('can load template files', function() {
-      jasmine.getFixtures().fixturesPath = 'spec/fixtures';
+      jasmine.getFixtures().fixturesPath = 'src';
       loadFixtures('templates.html');
       expect($('#greeter_template')).toExist();
     });
