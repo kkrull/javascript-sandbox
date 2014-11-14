@@ -3,6 +3,9 @@ describe('Test environment', function() {
     it('includes Backbone', function() {
       expect(Backbone).toBeDefined();
     });
+    it('includes jasmine-jquery', function() {
+      expect($('body')).toBeInDOM();
+    });
     it('includes jQuery', function() {
       expect(jQuery).toBeDefined();
       expect($).toBeDefined();
@@ -18,7 +21,7 @@ describe('Test environment', function() {
     function removeHook() { $('#hook').remove(); }
 
     afterEach(function() { removeHook(); });
-    
+
     it('can add elements to the DOM and remove them again', function() {
       addHook();
       expect($('#hook')[0]).toBeDefined();
@@ -26,7 +29,6 @@ describe('Test environment', function() {
       expect($('#hook')[0]).not.toBeDefined();
     });
     xit('can load HTML templates', function() {
-      jasmine.getFixtures().fixturesPath = '.'; //TODO KDK: May not need to do this at all; want to use a file from production
       expect($('#greeter_template')[0]).toBeDefined();
     });
   });
