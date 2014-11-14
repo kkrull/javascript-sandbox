@@ -32,7 +32,7 @@ describe('Test environment', function() {
       expect($('#hook')).not.toBeInDOM();
     });
     it('is properly configured to load test fixtures', function() {
-      loadFixtures('templates.html');
+      loadFixtures('greeting/templates.html');
     });
   });
 });

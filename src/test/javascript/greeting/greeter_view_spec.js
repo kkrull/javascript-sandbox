@@ -2,7 +2,7 @@ describe('GreeterView', function() {
   function domElement() { return $('#hook')[0];}
 
   beforeEach(function() {
-    loadFixtures('templates.html');
+    loadFixtures('greeting/templates.html');
     $('body').append($('<div id="hook">'));
   });
   afterEach(function() {
