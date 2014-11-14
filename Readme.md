@@ -2,6 +2,8 @@
 
 This project is a place for me to experiment with how to do JavaScript development in a Maven project.
 
+Get started by running `mvn jasmine:bdd` and pointing your browser to `http://localhost:8234`.
+
 
 ## Testing
 
@@ -171,10 +173,12 @@ development and testing with Backbone.
 
 ## Future work
 
-- Some means of creating HTML from templates, like handlebars.js
-  * Where to put the template files?
-  * How to get Jasmine's web server to load these files?  [This blog](http://addyosmani.github.io/backbone-fundamentals/#jasmine)
-    suggests `jasmine.getFixtures().fixturesPath = 'your custom path'`
+Production:
+
+- An actual index page that renders the Backbone view.
 - Use webjars to manage dependencies on JavaScript libraries without copying their source into source control.
+
+Testing:
+
 - JavaScript mocking libraries, such as SinonJS.
 - Shared examples and shared context in Jasmine specs.
