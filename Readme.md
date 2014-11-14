@@ -20,13 +20,19 @@ I've used PhantomJS before, and hence prefer to use that.  Normally you'd have t
 you plan to use, but [phantomjs-maven-plugin](https://github.com/klieber/phantomjs-maven-plugin) takes care of that
 automatically when you run Maven.
 
+### Configuration
+
 I tried - and failed - to configure an additional `contextRoot` for `lib/main/javascript`, so that `lib/` can mirror
 `src/`.  [Preloading resources](http://searls.github.io/jasmine-maven-plugin/test-mojo.html#preloadSources) does work,
-although this requires files to be relative to `src/main/javascript`.
+although this requires files to be relative to `src/main/javascript`.  That's why third party libraries are - for now -
+in `src/main/javascript/vendor` and `src/test/javascript/vendor`.
 
-### IntelliJ integration
+One such library is used only for testing: [jasmine-jquery](https://github.com/velesin/jasmine-jquery).  Note that the
+version selected needs to be compatible with the version of Jasmine we're using (1.3).  There are some articles
+explaining how to configure Jasmine for [loading templates](http://www.jayway.com/2012/04/17/configuring-jasmine-to-work-with-maven-and-jquery-fixtures/)
+from external fixtures.
 
-Some live templates are helpful:
+### IntelliJ live templates
 
 ```
 afterEach(function() {

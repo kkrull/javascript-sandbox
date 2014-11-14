@@ -17,16 +17,21 @@ describe('GreeterView', function() {
     });
 
     describe('.remove', function() {
-      beforeEach(function() {this.subject.remove(); });
-      it('removes the element from the DOM', function() {
-        expect(domElement()).not.toBeDefined();
+      describe('after rendering', function() {
+        beforeEach(function() {
+          this.subject.render();
+          this.subject.remove();
+        });
+        it('removes itself from the given DOM container element', function() {
+          expect($('#hook')).not.toBeInDOM();
+        });
       });
     });
 
     describe('.render', function() {
       beforeEach(function() { this.returned = this.subject.render(); });
-      it('renders the template', function() {
-        expect($('div h2').text()).toEqual('Hello, Frank');
+      it('renders the given model in the HTML template', function() {
+        expect($('#hook')).toContainHtml('<h2>Hello, Frank</h2>');
       });
       it('returns itself', function() {
         expect(this.returned).toBe(this.subject);

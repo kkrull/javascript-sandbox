@@ -24,12 +24,9 @@ describe('Test environment', function() {
 
     it('can add elements to the DOM and remove them again', function() {
       addHook();
-      expect($('#hook')[0]).toBeDefined();
+      expect($('#hook')).toBeInDOM();
       removeHook();
-      expect($('#hook')[0]).not.toBeDefined();
-    });
-    xit('can load HTML templates', function() {
-      expect($('#greeter_template')[0]).toBeDefined();
+      expect($('#hook')).not.toBeInDOM();
     });
   });
 });
