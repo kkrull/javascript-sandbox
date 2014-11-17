@@ -100,6 +100,25 @@ IntelliJ's features like auto-complete can use source for third party libraries:
 It scope is listed as `provided` in the POM since the plugin may be using its own version.
 
 
+## Deployment
+
+`maven-war-plugin` defines how to process and assemble source files into a WAR file.  You can then deploy this WAR to a
+standalone instance of your favorite web server, or run an embedded web server via `mvn tomcat7:run-war` or
+`mvn jetty:run-war`.  If you want to check the contents of the WAR, it's just a zip/jar file - try
+`jar tf target/javascript-sandbox-<version>.war`.
+
+Using the `run-war` goals mimics a production workflow, and gives you a chance to verify that the WAR gets assembled
+correctly (i.e. everything still runs after it's been assembled into the WAR).  However, this isn't very handy if you're
+in a development workflow and are changing source files rapidly.  For that you want to use `mvn jetty:run`, which loads
+resources directly from `src/main/javascript` and `src/main/webapp` instead of copying them into a WAR file and running
+the (old) copy.  `tomcat7-maven-plugin` does not appear to support multiple source paths for the same context, so it is
+not compatible with a developer workflow on a project that has multiple source directories (it would work fine if
+everything was munged together under `src/main/webapp`).
+
+Finally, note that you can run both the Jasmine server and the Jetty/Tomcat server side by side.  They run on separate
+ports, so there's no need to shut one down when starting the other.
+
+
 ## Modular source code (a.k.a. combining and minimizing)
 
 Packages offer a variety of services, such as minifying and combining or are "script loaders".  They all allow you to
