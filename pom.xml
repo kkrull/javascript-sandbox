@@ -94,7 +94,7 @@
         <configuration>
           <webApp>
             <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-              <resourcesAsCSV>src/main/webapp,src/main/javascript</resourcesAsCSV>
+              <resourcesAsCSV>src/main/javascript,src/main/webapp</resourcesAsCSV>
             </baseResource>
             <contextPath>/${project.artifactId}</contextPath>
           </webApp>
