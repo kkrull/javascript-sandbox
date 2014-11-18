@@ -5,6 +5,28 @@ This project is a place for me to experiment with how to do JavaScript developme
 Get started by running `mvn jasmine:bdd` and pointing your browser to `http://localhost:8234`.
 
 
+## Context roots and entry points
+
+I've attempted to minimize differences between context roots used in production and testing environments.
+
+```
+src/main/webapp
+- /javascript-sandbox (prod)
+- /src (jasmine)
+
+src/test/javascript
+- /spec (jasmine)
+```
+
+Note that there are different entry points for each workflow:
+
+- Production workflows (tomcat and jetty) go to index.html, which loads dependencies and attaches Handlebars templates
+  to the DOM.  Then it creates and renders a view.
+- Jasmine workflows go to the embedded / generated test runner page, which has its own cycle of loading dependencies.
+  *environment.js will need to attach templates to the DOM*.
+
+
+
 ## Testing
 
 Jasmine tests are integrated with Maven via [jasmine-maven-plugin](http://searls.github.io/jasmine-maven-plugin/).  It
