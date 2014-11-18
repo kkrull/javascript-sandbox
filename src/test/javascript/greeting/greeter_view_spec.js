@@ -32,7 +32,7 @@ describe('GreeterView', function() {
     describe('.render', function() {
       beforeEach(function() { this.returned = this.subject.render(); });
       it('renders the given model in the HTML template', function() {
-        expect($('#hook')).toContainHtml('<h2>Hello, Frank</h2>');
+        expect($('#hook')).toContainHtml('<h2>Hello, Frank.</h2>');
       });
       it('returns itself', function() {
         expect(this.returned).toBe(this.subject);
