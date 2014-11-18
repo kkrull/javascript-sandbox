@@ -40,12 +40,12 @@
           </execution>
         </executions>
         <configuration>
-          <additionalContexts>
-            <context>
-              <contextRoot>webapp</contextRoot>
-              <directory>${project.basedir}/src/main/webapp</directory>
-            </context>
-          </additionalContexts>
+          <!--<additionalContexts>-->
+            <!--<context>-->
+              <!--<contextRoot>webapp</contextRoot>-->
+              <!--<directory>${project.basedir}/src/main/webapp</directory>-->
+            <!--</context>-->
+          <!--</additionalContexts>-->
           <preloadSources>
             <!-- Production libraries -->
             <source>vendor/jquery-2.1.1.js</source>
@@ -73,11 +73,6 @@
         <version>2.3</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
-          <webResources>
-            <resource>
-              <directory>src/main/javascript</directory>
-            </resource>
-          </webResources>
         </configuration>
       </plugin>
 
@@ -93,9 +88,6 @@
         <version>9.2.2.v20140723</version>
         <configuration>
           <webApp>
-            <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-              <resourcesAsCSV>src/main/javascript,src/main/webapp</resourcesAsCSV>
-            </baseResource>
             <contextPath>/${project.artifactId}</contextPath>
           </webApp>
           <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
