@@ -31,8 +31,9 @@ describe('Test environment', function() {
       removeHook();
       expect($('#hook')).not.toBeInDOM();
     });
-    it('is properly configured to load test fixtures', function() {
+    it('can load Handlebars templates from external sources', function() {
       loadFixtures('greeting/templates.html');
+      expect($('#greeter_template')).toExist();
     });
   });
 });

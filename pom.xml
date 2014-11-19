@@ -40,23 +40,20 @@
           </execution>
         </executions>
         <configuration>
-          <additionalContexts>
-            <context>
-              <contextRoot>webapp</contextRoot>
-              <directory>${project.basedir}/src/main/webapp</directory>
-            </context>
-          </additionalContexts>
+          <jsSrcDir>src/main/webapp</jsSrcDir>
           <preloadSources>
-            <!-- Production libraries -->
+            <!-- Emulate script loading in index.html -->
             <source>vendor/jquery-2.1.1.js</source>
             <source>vendor/underscore-1.7.0.js</source>
             <source>vendor/backbone-1.1.2.js</source>
             <source>vendor/handlebars-2.0.0.js</source>
 
-            <!-- Test libraries -->
+            <!-- Load extra libraries used for testing -->
             <source>vendor/jasmine-jquery-1.7.0.js</source>
-            <source>helpers/environment.js</source>
           </preloadSources>
+          <sourceExcludes>
+            <exclude>main.js</exclude>
+          </sourceExcludes>
           <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
           <webDriverCapabilities>
             <capability>
@@ -73,11 +70,6 @@
         <version>2.3</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
-          <webResources>
-            <resource>
-              <directory>src/main/javascript</directory>
-            </resource>
-          </webResources>
         </configuration>
       </plugin>
 
@@ -93,9 +85,6 @@
         <version>9.2.2.v20140723</version>
         <configuration>
           <webApp>
-            <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-              <resourcesAsCSV>src/main/javascript,src/main/webapp</resourcesAsCSV>
-            </baseResource>
             <contextPath>/${project.artifactId}</contextPath>
           </webApp>
           <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>

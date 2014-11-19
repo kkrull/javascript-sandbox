@@ -1,7 +1,11 @@
-//Configures the Jasmine environment.
-//Request path must match a context path defined in jasmine-maven-plugin::configuration/additionalContexts.
-(function configureJasmineFixtures() {
-  var path = 'webapp';
-  console.debug('Configuring jasmine-jquery to request fixtures from /' + path);
-  jasmine.getFixtures().fixturesPath = path;
-})();
+//Emulate template loading done in main.js.  Loads with other scripts; runs on document ready.
+$(function setupJasmine() {
+  function configure() {
+    var path = 'src';
+    console.debug('Configuring jasmine-jquery to request fixtures from /' + path);
+    jasmine.getFixtures().fixturesPath = path;
+  }
+
+  console.debug('Setting up test environment from environment.js');
+  configure();
+});
