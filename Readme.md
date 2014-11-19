@@ -130,6 +130,14 @@ version selected needs to be compatible with the version of Jasmine we're using 
 explaining how to configure Jasmine for [loading templates](http://www.jayway.com/2012/04/17/configuring-jasmine-to-work-with-maven-and-jquery-fixtures/)
 from external fixtures.
 
+### IntelliJ run configuration
+
+I wasn't able to get the JSTestDriver plugin to run in this project at all, or to run Jasmine tests in a sample project.
+You can, however, run from IntelliJ by creating a Maven Run Configuration with the following settings:
+
+- Working directory: <project root directory>
+- Arguments: `com.github.klieber:phantomjs-maven-plugin:install jasmine:test`
+
 ### IntelliJ live templates
 
 ```
@@ -231,7 +239,7 @@ Production:
 
 Testing:
 
-- Run Jasmine tests directly in IntelliJ
 - Cucumber for acceptance and/or integration tests?
 - JavaScript mocking libraries, such as SinonJS.
 - Shared examples and shared context in Jasmine specs.
+- JSTestDriver or similar plugin that runs Jasmine tests in IntelliJ
