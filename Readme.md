@@ -26,28 +26,6 @@ configured to *skip* loading `main.js`, due to the difference in context roots i
 **Each spec must load and attach its own templates, to maintain isolation.**
 
 
-## Context roots and entry points
-
-I've attempted to minimize differences between context roots used in production and testing environments.
-
-```
-src/main/webapp
-- /javascript-sandbox (prod)
-- /src (jasmine)
-
-src/test/javascript
-- /spec (jasmine)
-```
-
-Note that there are different entry points for each workflow:
-
-- Production workflows (tomcat and jetty) go to index.html, which loads dependencies and attaches Handlebars templates
-  to the DOM.  Then it creates and renders a view.
-- Jasmine workflows go to the embedded / generated test runner page, which has its own cycle of loading dependencies.
-  *environment.js will need to attach templates to the DOM*.
-
-
-
 ## Testing
 
 Jasmine tests are integrated with Maven via [jasmine-maven-plugin](http://searls.github.io/jasmine-maven-plugin/).  It
@@ -237,7 +215,7 @@ development and testing with Backbone.
 
 Production:
 
-- An actual index page that renders the Backbone view.
+- Some real CRUD with a servlet, to show how Backbone handles that (and to get the java side working).
 - Use webjars to manage dependencies on JavaScript libraries without copying their source into source control.
 
 Testing:
