@@ -7,7 +7,8 @@
   }
 
   function renderView() {
-    var model = new Person({firstName: 'George'});
+    var model = new Person({});
+    model.fetch();
     var view = new GreeterView({model: model});
     view.render();
   }
