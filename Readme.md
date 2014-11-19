@@ -4,6 +4,27 @@ This project is a place for me to experiment with how to do JavaScript developme
 
 Get started by running `mvn jasmine:bdd` and pointing your browser to `http://localhost:8234`.
 
+For a demo, run `mvn tomcat7:run` and got to `http://localhost:8080/javascript-sandbox`.
+
+
+## Web server and bootstrapping process
+
+In an ideal world, there would be absolutely no difference between production and test environments in:
+
+- the URLs and context roots that are used to access resources
+- the process and order of loading resources before starting to run
+
+There are, however, some minor differences that can not be avoided at this time.  For loading sources, production uses
+`<script>` tags in `index.html` to define the load order.  `jasmine-maven-plugin` is configured to load the same
+dependencies in the same order, followed by any test-specific dependencies.
+
+When it comes to loading Handlebars templates, `index.html` finishes by loading `main.js`, which fetches Handlebars
+templates from `<feature>/templates.html` and attaches them to the DOM upon document ready.  `jasmine-maven-plugin` is
+configured to *skip* loading `main.js`, due to the difference in context roots in production
+(`<context-root>/<feature>`) and in Jasmine (`src/<feature>`).
+
+**Each spec must load and attach its own templates, to maintain isolation.**
+
 
 ## Context roots and entry points
 

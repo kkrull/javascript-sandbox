@@ -1,4 +1,4 @@
-describe('Greeter', function() {
+xdescribe('Greeter', function() {
   describe('constructor', function() {
     describe('when you forget to use new', function() {
         it('throws an error', function() {

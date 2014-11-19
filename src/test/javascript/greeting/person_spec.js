@@ -1,4 +1,4 @@
-describe('Person', function() {
+xdescribe('Person', function() {
   describe('default attributes', function() {
     var subject = new Person();
     it('firstName is ""', function() {
