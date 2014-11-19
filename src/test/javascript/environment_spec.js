@@ -18,7 +18,7 @@ describe('Test environment', function() {
     });
   });
 
-  xdescribe('jasmine test environment', function() {
+  describe('jasmine test environment', function() {
     function addHook() { $('body').append($('<div id="hook">')); }
 
     function removeHook() { $('#hook').remove(); }
