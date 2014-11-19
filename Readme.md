@@ -231,6 +231,7 @@ Production:
 
 Testing:
 
+- Run Jasmine tests directly in IntelliJ
 - Cucumber for acceptance and/or integration tests?
 - JavaScript mocking libraries, such as SinonJS.
 - Shared examples and shared context in Jasmine specs.
