@@ -4,7 +4,7 @@ This project is a place for me to experiment with how to do JavaScript developme
 
 Get started by running `mvn jasmine:bdd` and pointing your browser to `http://localhost:8234`.
 
-For a demo, run `mvn tomcat7:run` and got to `http://localhost:8080/javascript-sandbox`.
+For a demo, run `mvn tomcat7:run` and go to `http://localhost:8080/javascript-sandbox`.
 
 
 ## Web server and bootstrapping process
@@ -23,7 +23,13 @@ templates from `<feature>/templates.html` and attaches them to the DOM upon docu
 configured to *skip* loading `main.js`, due to the difference in context roots in production
 (`<context-root>/<feature>`) and in Jasmine (`src/<feature>`).
 
-**Each spec must load and attach its own templates, to maintain isolation.**
+**Each spec must load and attach its own templates, to maintain isolation**.  For example:
+
+```
+beforeEach(function() {
+  loadFixtures('greeting/templates.html');
+});
+```
 
 
 ## Testing
@@ -49,8 +55,8 @@ jasmine-maven-plugin.
 
 I tried - and failed - to configure an additional `contextRoot` for `lib/main/javascript`, so that `lib/` can mirror
 `src/`.  [Preloading resources](http://searls.github.io/jasmine-maven-plugin/test-mojo.html#preloadSources) does work,
-although this requires files to be relative to `src/main/javascript`.  That's why third party libraries are - for now -
-in `src/main/javascript/vendor` and `src/test/javascript/vendor`.
+although this requires files to be relative to the JavaScript source directory (reconfigured to `src/main/javascript`).
+That's why third party libraries are - for now - in `src/main/webapp/vendor` and `src/test/javascript/vendor`.
 
 One such library is used only for testing: [jasmine-jquery](https://github.com/velesin/jasmine-jquery).  Note that the
 version selected needs to be compatible with the version of Jasmine we're using (1.3).  There are some articles
@@ -88,14 +94,16 @@ mvn archetype:generate -DarchetypeGroupId=com.github.searls -DarchetypeArtifactI
 
 This puts JavaScript files at `src/main/javascript` instead of the default `src/main/webapp` defined in the
 [standard directory layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html).
+Normally I'd prefer to separate by language then by feature, but this requires a lot of reconfiguration for other
+plugins.
 
-For `mvn war:war` to include these sources in created WAR file, an entry for `src/main/javascript` has to be added to
-`maven-war-plugin`'s configuration under `webResources/resource`.  These directories get copied straight into the WAR,
-such that files related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/greeter.js`
-and `src/main/css/greeting/greeting.css` both get copied to `greeting/` in the resulting WAR file).
-
-As a result, it may be only be necessary to have `WEB-INF/web.xml` and index pages in `src/main/webapp` instead of
-mixing up JavaScript, CSS, and JSP under a lower level of nesting.
+An earlier experiment with separating by language was successful for `maven-war-plugin`.  For `mvn war:war` to include
+these sources in created WAR file, an entry for `src/main/javascript` has to be added to `maven-war-plugin`'s
+configuration under `webResources/resource`.  These directories get copied straight into the WAR, such that files
+related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/greeter.js` and
+`src/main/css/greeting/greeting.css` both get copied to `greeting/` in the resulting WAR file).  Resulting use of the
+WAR in `mvn jetty:run-war` and `mvn tomcat7:run-war` was also successful, but it became difficult to configure the
+bootstrapping process for Jasmine.
 
 ### Third party libraries
 
