@@ -1,7 +1,7 @@
 (function main() {
   function attachTemplatesAndRenderView(url) {
     $.get(url, function(content) {
-      $('body').append(content);
+      $('head').append(content);
       renderView();
     });
   }
