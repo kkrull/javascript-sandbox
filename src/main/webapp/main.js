@@ -1,7 +1,8 @@
-$(function main() {
-  function attachTemplateToDom(url) {
+(function main() {
+  function attachTemplatesAndRenderView(url) {
     $.get(url, function(content) {
       $('body').append(content);
+      renderView();
     });
   }
 
@@ -11,7 +12,8 @@ $(function main() {
     view.render();
   }
 
-  console.log('Setting up production environment from main.js');
-  attachTemplateToDom('greeting/templates.html');
-  renderView();
-});
+  $(function() {
+    console.debug('Setting up production environment from main.js');
+    attachTemplatesAndRenderView('greeting/templates.html');
+  });
+})();
