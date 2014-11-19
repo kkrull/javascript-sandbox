@@ -1,13 +1,15 @@
 # JavaScript Sandbox
 
-This project is a place for me to experiment with how to do JavaScript development in a Maven project.
+This project is a place for me to experiment with how to do JavaScript development in a Maven project.  You can do:
 
-Get started by running `mvn jasmine:bdd` and pointing your browser to `http://localhost:8234`.
+- Test-driven development in JavaScript: Run `mvn jasmine:bdd` and point your browser to `http://localhost:8234`.
+- Regular tests and builds in Maven: `mvn test` includes Jasmine tests, and `mvn package` creates a WAR with all sources
+  required to run the web application, just like a normal Maven workflow.
 
 For a demo, run `mvn tomcat7:run` and go to `http://localhost:8080/javascript-sandbox`.
 
 
-## Web server and bootstrapping process
+## Client-side script loading and context roots
 
 In an ideal world, there would be absolutely no difference between production and test environments in:
 
@@ -32,7 +34,62 @@ beforeEach(function() {
 ```
 
 
-## Testing
+## Maven project structure
+
+This project was generated using `jasmine-archetype`:
+
+```
+mvn archetype:generate -DarchetypeGroupId=com.github.searls -DarchetypeArtifactId=jasmine-archetype -DarchetypeVersion=1.3.1.5
+```
+
+This puts JavaScript files at `src/main/javascript` instead of the default `src/main/webapp` defined in the
+[standard directory layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html).
+Normally I'd prefer to separate by language then by feature, but this requires a lot of reconfiguration for other
+plugins.
+
+### Deployment via WAR
+
+`maven-war-plugin` defines how to process and assemble source files into a WAR file.  You can then deploy this WAR to a
+standalone instance of your favorite web server, or run an embedded web server via `mvn tomcat7:run-war` or
+`mvn jetty:run-war`.  If you want to check the contents of the WAR, it's just a zip/jar file - try
+`jar tf target/javascript-sandbox-<version>.war`.
+
+Using the `run-war` goals mimics a production workflow, and gives you a chance to verify that the WAR gets assembled
+correctly (i.e. everything still runs after it's been assembled into the WAR).  However, this isn't very handy if you're
+in a development workflow and are changing source files rapidly.  For that you want to use `mvn jetty:run`, which loads
+resources directly from `src/main/javascript` and `src/main/webapp` instead of copying them into a WAR file and running
+the (old) copy.  `tomcat7-maven-plugin` does not appear to support multiple source paths for the same context, so it is
+not compatible with a developer workflow on a project that has multiple source directories (it would work fine if
+everything was munged together under `src/main/webapp`).
+
+Finally, note that you can run both the Jasmine server and the Jetty/Tomcat server side by side.  They run on separate
+ports, so there's no need to shut one down when starting the other.
+
+### IntelliJ integration
+
+IntelliJ's features like auto-complete can use source for third party libraries:
+
+- whose source is located in the project (just like any other file).
+- that are made available through an explicitly-defined Maven webjar dependency.
+
+`org.webjars.jasmine` is used by the Jasmine plugin, and hence is a plugin dependency (not a source code dependency).
+It scope is listed as `provided` in the POM since the plugin may be using its own version.
+
+### Third party libraries
+
+The simplest approach with third party libraries is to check them in to version control along with source files and
+reference these files like any other source file.  Third-party JavaScript libraries therefore appear in
+`src/main/webapp/vendor` and appear under `vendor/` in the packaged WAR.
+
+[Webjars](http://www.webjars.org/documentation) can be configured for Maven projects (see "Servlet 3" section) in order
+to manage client-side dependencies in a similar fashion to how server-side dependencies are managed.  There's also a
+[sample project](https://github.com/webjars/sample-jetty_war) to help you get started.
+
+This looks like a good idea for the long-term (and it's supported by the jasmine plugin), but it will add more
+complexity than is initially warranted for small projects.
+
+
+## Testing with Jasmine
 
 Jasmine tests are integrated with Maven via [jasmine-maven-plugin](http://searls.github.io/jasmine-maven-plugin/).  It
 offers two modes of operation:
@@ -51,7 +108,17 @@ Need more help?  Try `mvn jasmine:help -Ddetail=true` and `mvn jasmine:bdd -X`. 
 [examples](https://github.com/searls/jasmine-maven-plugin/tree/master/src/test/resources/examples) of how to use
 jasmine-maven-plugin.
 
-### Configuration
+### Attempted configuration: Separating source by language
+
+An earlier experiment with separating by language was successful for `maven-war-plugin`.  For `mvn war:war` to include
+these sources in created WAR file, an entry for `src/main/javascript` has to be added to `maven-war-plugin`'s
+configuration under `webResources/resource`.  These directories get copied straight into the WAR, such that files
+related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/greeter.js` and
+`src/main/css/greeting/greeting.css` both get copied to `greeting/` in the resulting WAR file).  Resulting use of the
+WAR in `mvn jetty:run-war` and `mvn tomcat7:run-war` was also successful, but it became difficult to configure the
+bootstrapping process for Jasmine.
+
+### Configuration: Vendor libraries
 
 I tried - and failed - to configure an additional `contextRoot` for `lib/main/javascript`, so that `lib/` can mirror
 `src/`.  [Preloading resources](http://searls.github.io/jasmine-maven-plugin/test-mojo.html#preloadSources) does work,
@@ -82,70 +149,6 @@ it('$BEHAVIOR$', function() {
   $END$
 });
 ```
-
-
-## Maven project structure
-
-This project was generated using `jasmine-archetype`:
-
-```
-mvn archetype:generate -DarchetypeGroupId=com.github.searls -DarchetypeArtifactId=jasmine-archetype -DarchetypeVersion=1.3.1.5
-```
-
-This puts JavaScript files at `src/main/javascript` instead of the default `src/main/webapp` defined in the
-[standard directory layout](http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html).
-Normally I'd prefer to separate by language then by feature, but this requires a lot of reconfiguration for other
-plugins.
-
-An earlier experiment with separating by language was successful for `maven-war-plugin`.  For `mvn war:war` to include
-these sources in created WAR file, an entry for `src/main/javascript` has to be added to `maven-war-plugin`'s
-configuration under `webResources/resource`.  These directories get copied straight into the WAR, such that files
-related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/greeter.js` and
-`src/main/css/greeting/greeting.css` both get copied to `greeting/` in the resulting WAR file).  Resulting use of the
-WAR in `mvn jetty:run-war` and `mvn tomcat7:run-war` was also successful, but it became difficult to configure the
-bootstrapping process for Jasmine.
-
-### Third party libraries
-
-The simplest approach with third party libraries is to check them in to version control along with source files and
-reference these files like any other source file.  Third-party vendor libraries are in their respective language folder,
-under a `vendor/` subdirectory and appear under `vendor/` in the packaged WAR.
-
-[Webjars](http://www.webjars.org/documentation) can be configured for Maven projects (see "Servlet 3" section) in order
-to manage client-side dependencies in a similar fashion to how server-side dependencies are managed.  There's also a
-[sample project](https://github.com/webjars/sample-jetty_war) to help you get started.
-
-This looks like a good idea for the long-term (and it's supported by the jasmine plugin), but it will add more
-complexity than is initially warranted for small projects.
-
-### IntelliJ integration
-
-IntelliJ's features like auto-complete can use source for third party libraries:
-
-- whose source is located in the project (just like any other file)
-- made available through an explicitly-defined Maven webjar dependency.
-
-`org.webjars.jasmine` is used by the Jasmine plugin, and hence is a plugin dependency (not a source code dependency).
-It scope is listed as `provided` in the POM since the plugin may be using its own version.
-
-
-## Deployment
-
-`maven-war-plugin` defines how to process and assemble source files into a WAR file.  You can then deploy this WAR to a
-standalone instance of your favorite web server, or run an embedded web server via `mvn tomcat7:run-war` or
-`mvn jetty:run-war`.  If you want to check the contents of the WAR, it's just a zip/jar file - try
-`jar tf target/javascript-sandbox-<version>.war`.
-
-Using the `run-war` goals mimics a production workflow, and gives you a chance to verify that the WAR gets assembled
-correctly (i.e. everything still runs after it's been assembled into the WAR).  However, this isn't very handy if you're
-in a development workflow and are changing source files rapidly.  For that you want to use `mvn jetty:run`, which loads
-resources directly from `src/main/javascript` and `src/main/webapp` instead of copying them into a WAR file and running
-the (old) copy.  `tomcat7-maven-plugin` does not appear to support multiple source paths for the same context, so it is
-not compatible with a developer workflow on a project that has multiple source directories (it would work fine if
-everything was munged together under `src/main/webapp`).
-
-Finally, note that you can run both the Jasmine server and the Jetty/Tomcat server side by side.  They run on separate
-ports, so there's no need to shut one down when starting the other.
 
 
 ## Modular source code (a.k.a. combining and minimizing)
@@ -228,5 +231,6 @@ Production:
 
 Testing:
 
+- Cucumber for acceptance and/or integration tests?
 - JavaScript mocking libraries, such as SinonJS.
 - Shared examples and shared context in Jasmine specs.
