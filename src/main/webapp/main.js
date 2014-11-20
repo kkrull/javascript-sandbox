@@ -7,10 +7,13 @@
   }
 
   function renderView() {
-    var model = new Person({});
-    model.fetch();
-    var view = new GreeterView({model: model});
-    view.render();
+    var model = new Person({id: 42});
+    model.fetch({
+      success: function(updatedModel) {
+        var view = new GreeterView({model: updatedModel});
+        view.render();
+      }
+    });
   }
 
   $(function() {

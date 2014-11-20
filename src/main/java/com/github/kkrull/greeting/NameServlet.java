@@ -11,6 +11,7 @@ import java.io.IOException;
 @WebServlet(name = "NameServlet", urlPatterns = "/person/name")
 public class NameServlet extends javax.servlet.http.HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    System.out.printf("Request\n");
     response.setContentType("application/json");
     MimeType type = null;
     try {
@@ -19,7 +20,7 @@ public class NameServlet extends javax.servlet.http.HttpServlet {
       e.printStackTrace();
     }
     response.setContentType(type.toString());
-    response.getWriter().println("{\"firstName\": \"George\"}");
+    response.getWriter().println("{\"firstName\": \"Bob\"}");
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
