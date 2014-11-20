@@ -1,11 +1,5 @@
+//Script loading and intitialization for the production environment.  Loads with other scripts; runs on document ready.
 (function main() {
-  function attachTemplatesAndRenderView(url) {
-    $.get(url, function(content) {
-      $('head').append(content);
-      renderView();
-    });
-  }
-
   function renderView() {
     var model = new Person({id: 42});
     model.fetch({
@@ -18,6 +12,6 @@
 
   $(function() {
     console.debug('Setting up production environment from main.js');
-    attachTemplatesAndRenderView('greeting/templates.html');
+    sandbox.environment.loadTemplate('greeting/templates.html', renderView);
   });
 })();

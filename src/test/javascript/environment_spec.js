@@ -1,39 +1,24 @@
-describe('Test environment', function() {
-  describe('libraries', function() {
-    it('includes Backbone', function() {
-      expect(Backbone).toBeDefined();
-    });
-    it('includes Handlebars', function() {
-      expect(Handlebars).toBeDefined();
-    });
-    it('includes jasmine-jquery', function() {
-      expect($('body')).toBeInDOM();
-    });
-    it('includes jQuery', function() {
-      expect(jQuery).toBeDefined();
-      expect($).toBeDefined();
-    });
-    it('includes Underscore', function() {
-      expect(_).toBeDefined();
-    });
-  });
+describe('sandbox.environment', function() {
+  describe('.loadTemplate', function() {
+    describe('given a url of a valid resource and a callback', function() {
+      var callback = jasmine.createSpy('callback');
+      beforeEach(function() {
+        callback.reset();
+        runs(function() { sandbox.environment.loadTemplate('spec/environment_spec_template.html', callback); });
+        waitsFor(function() { return callback.callCount > 0; }, 'the callback to be invoked', 500);
+      });
+      afterEach(function() {
+        $('#environment_spec_template').remove();
+      });
 
-  describe('jasmine test environment', function() {
-    function addHook() { $('body').append($('<div id="hook">')); }
-
-    function removeHook() { $('#hook').remove(); }
-
-    afterEach(function() { removeHook(); });
-
-    it('can add elements to the DOM and remove them again', function() {
-      addHook();
-      expect($('#hook')).toBeInDOM();
-      removeHook();
-      expect($('#hook')).not.toBeInDOM();
-    });
-    it('can load Handlebars templates from external sources', function() {
-      loadFixtures('greeting/templates.html');
-      expect($('#greeter_template')).toExist();
+      it('invokes the callback', function() {
+        runs(function() { expect(callback).toHaveBeenCalled(); })
+      });
+      it('appends the loaded content to <head>', function() {
+        runs(function() {
+          expect($('head script#environment_spec_template')).toBeInDOM();
+        })
+      });
     });
   });
 });
