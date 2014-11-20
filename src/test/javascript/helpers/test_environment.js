@@ -6,6 +6,6 @@ $(function setupJasmine() {
     jasmine.getFixtures().fixturesPath = path;
   }
 
-  console.debug('Setting up test environment from environment.js');
+  console.debug('Setting up test environment from test_environment.js');
   configure();
 });
