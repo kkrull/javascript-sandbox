@@ -4,7 +4,7 @@ describe('sandbox.environment', function() {
       var callback = jasmine.createSpy('callback');
       beforeEach(function() {
         callback.reset();
-        runs(function() { sandbox.environment.loadTemplate('spec/environment/template.html', callback); });
+        sandbox.environment.loadTemplate('spec/environment/template.html', callback);
         waitsFor(function() { return callback.callCount > 0; }, 'the callback to be invoked', 500);
       });
       afterEach(function() {
@@ -12,12 +12,12 @@ describe('sandbox.environment', function() {
       });
 
       it('invokes the callback', function() {
-        runs(function() { expect(callback).toHaveBeenCalled(); })
+        runs(function() { expect(callback).toHaveBeenCalled(); });
       });
       it('appends the loaded content to <head>', function() {
         runs(function() {
           expect($('head script#environment_spec_template')).toBeInDOM();
-        })
+        });
       });
     });
   });
