@@ -113,7 +113,7 @@ jasmine-maven-plugin.
 An earlier experiment with separating by language was successful for `maven-war-plugin`.  For `mvn war:war` to include
 these sources in created WAR file, an entry for `src/main/javascript` has to be added to `maven-war-plugin`'s
 configuration under `webResources/resource`.  These directories get copied straight into the WAR, such that files
-related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/greeter.js` and
+related by feature get placed into the same subdirectory (i.e. `src/main/javascript/greeting/greeter_view.js` and
 `src/main/css/greeting/greeting.css` both get copied to `greeting/` in the resulting WAR file).  Resulting use of the
 WAR in `mvn jetty:run-war` and `mvn tomcat7:run-war` was also successful, but it became difficult to configure the
 bootstrapping process for Jasmine.
@@ -242,4 +242,5 @@ Testing:
 - Cucumber for acceptance and/or integration tests?
 - JavaScript mocking libraries, such as SinonJS.
 - Shared examples and shared context in Jasmine specs.
-- JSTestDriver or similar plugin that runs Jasmine tests in IntelliJ
+- JSTestDriver or similar plugin that runs Jasmine tests in IntelliJ.
+  [Karma](http://karma-runner.github.io/0.10/index.html) may be a good alternative.
