@@ -4,7 +4,7 @@ describe('sandbox.environment', function() {
       var callback = jasmine.createSpy('callback');
       beforeEach(function() {
         callback.reset();
-        runs(function() { sandbox.environment.loadTemplate('spec/environment_spec_template.html', callback); });
+        runs(function() { sandbox.environment.loadTemplate('spec/environment/template.html', callback); });
         waitsFor(function() { return callback.callCount > 0; }, 'the callback to be invoked', 500);
       });
       afterEach(function() {
