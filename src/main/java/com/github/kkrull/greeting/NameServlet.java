@@ -12,18 +12,17 @@ import java.io.IOException;
 @WebServlet(name = "NameServlet", urlPatterns = "/person/name")
 public class NameServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//    MimeType type = null;
-//    try {
-//      type = new MimeType("application/json");
-//    } catch(MimeTypeParseException e) {
-//      e.printStackTrace();
-//    }
-//    response.setContentType(type.toString());
-//    response.setStatus(HttpServletResponse.SC_OK);
-//    response.getWriter().println("{\"firstName\": \"Bob\"}");
+    MimeType type = null;
+    try {
+      type = new MimeType("application/json");
+    } catch(MimeTypeParseException e) {
+      e.printStackTrace();
+    }
+    response.setContentType(type.toString());
+    response.setStatus(HttpServletResponse.SC_OK);
+    response.getWriter().println("{\"firstName\": \"Bob\"}");
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    throw new UnsupportedOperationException();
   }
 }

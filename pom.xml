@@ -112,12 +112,6 @@
     </dependency>
 
     <dependency>
-      <groupId>httpunit</groupId>
-      <artifactId>httpunit</artifactId>
-      <version>1.7</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>info.javaspec</groupId>
       <artifactId>javaspec</artifactId>
       <version>0.4.1</version>
@@ -130,10 +124,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <!-- Not using HttpUnit's JavaScript engine, but that doesn't stop it from complaining about this missing -->
-      <groupId>org.mozilla</groupId>
-      <artifactId>rhino</artifactId>
-      <version>1.7R4</version>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+      <version>7.0.47</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-logging-juli</artifactId>
+      <version>7.0.47</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-jasper</artifactId>
+      <version>7.0.47</version>
       <scope>test</scope>
     </dependency>
 
