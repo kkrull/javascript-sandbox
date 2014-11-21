@@ -1,6 +1,5 @@
 package com.github.kkrull.greeting;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import info.javaspec.dsl.Because;
 import info.javaspec.dsl.Cleanup;
@@ -15,19 +14,22 @@ import org.junit.runner.RunWith;
 import javax.servlet.Servlet;
 
 import static com.jayway.restassured.RestAssured.when;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(JavaSpecRunner.class)
 public class NameServletTest {
   private final Server server = new Server(8080);
   private Response response;
 
-  Establish server_started = () -> runServlet("/javascript-sandbox", "/person/name", new NameServlet());
+  Establish server_started = () -> runServlet("/", "/person/name", new NameServlet());
   Cleanup stop_server = () -> server.stop();
-
+  
   class GET {
     class given_a_blank_request {
-      Because of = () -> response = when().get("/javascript-sandbox/person/name");
+      Because of = () -> response = when().get("/person/name");
       It has_status_200 = () -> response.then().statusCode(200);
+      It content_is_json = () -> response.then().contentType("application/json");
+      It contains_the_persons_first_name = () -> response.then().body("firstName", equalTo("Bob"));
     }
   }
 
