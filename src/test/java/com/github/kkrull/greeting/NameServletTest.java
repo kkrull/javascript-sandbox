@@ -1,5 +1,6 @@
 package com.github.kkrull.greeting;
 
+import com.jayway.restassured.RestAssured;
 import info.javaspec.dsl.It;
 import info.javaspec.runner.JavaSpecRunner;
 import org.eclipse.jetty.server.Server;
@@ -25,7 +26,10 @@ public class NameServletTest {
         context.addServlet(new ServletHolder(new NameServlet()), "/person/name");
 
         server.start();
-        server.join();
+
+        RestAssured.when().get("/javascript-sandbox/person/name").then().statusCode(200);
+
+//        server.join();
       };
     }
   }
