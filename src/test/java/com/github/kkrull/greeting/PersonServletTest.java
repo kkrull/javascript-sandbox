@@ -9,7 +9,10 @@ import info.javaspec.runner.JavaSpecRunner;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import javax.servlet.Servlet;
 
@@ -20,21 +23,31 @@ import static org.hamcrest.CoreMatchers.equalTo;
 public class PersonServletTest {
   private final Server server = new Server(8080);
   private Response response;
+  private final PersonGateway gateway = Mockito.mock(PersonGateway.class);
 
-  Establish server_started = () -> runServlet("/", "/people/*", new PersonServlet());
+  Establish server_started = () -> runServlet("/", "/people/*", new PersonServlet(gateway));
   Cleanup stop_server = () -> server.stop();
 
   class GET {
+    class given_an_invalid_request {
+      Establish that = () -> Mockito.stub(gateway.firstName(42)).toReturn("Jarvis");
+      Because of = () -> response = when().get("/people/name");
+      It responds_400_bad_request = () -> response.then().statusCode(400);
+    }
+
     class given_the_id_for_an_unknown_person {
-      It responds_204;
+      Establish that = () -> Mockito.stub(gateway.firstName(42)).toReturn(null);
+      Because of = () -> response = when().get("/people/42/name");
+      It responds_404_not_found = () -> response.then().statusCode(404);
     }
 
     class given_a_name_request {
       class given_the_id_for_a_known_person {
+        Establish that = () -> Mockito.stub(gateway.firstName(42)).toReturn("Jarvis");
         Because of = () -> response = when().get("/people/42/name");
-        It has_status_200 = () -> response.then().statusCode(200);
+        It has_status_200_ok = () -> response.then().statusCode(200);
         It content_is_json = () -> response.then().contentType("application/json");
-        It contains_the_specified_persons_first_name = () -> response.then().body("firstName", equalTo("Bob"));
+        It contains_the_specified_persons_first_name = () -> response.then().body("firstName", equalTo("Jarvis"));
       }
     }
   }
