@@ -118,6 +118,13 @@
     </dependency>
 
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.5.6</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
       <groupId>info.javaspec</groupId>
       <artifactId>javaspec</artifactId>
       <version>0.4.1</version>
