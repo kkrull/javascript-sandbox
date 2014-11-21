@@ -129,12 +129,13 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>net.sourceforge.jwebunit</groupId>-->
-      <!--<artifactId>jwebunit-htmlunit-plugin</artifactId>-->
-      <!--<version>3.2</version>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
+    <dependency>
+      <!-- Not using HttpUnit's JavaScript engine, but that doesn't stop it from complaining about this missing -->
+      <groupId>org.mozilla</groupId>
+      <artifactId>rhino</artifactId>
+      <version>1.7R4</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <!-- Provided by jasmine-maven-plugin.  Listed here so IntelliJ realizes we're using Jasmine. -->
