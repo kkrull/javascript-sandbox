@@ -17,19 +17,25 @@ import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(JavaSpecRunner.class)
-public class NameServletTest {
+public class PersonServletTest {
   private final Server server = new Server(8080);
   private Response response;
 
-  Establish server_started = () -> runServlet("/", "/person/name", new NameServlet());
+  Establish server_started = () -> runServlet("/", "/people/*", new PersonServlet());
   Cleanup stop_server = () -> server.stop();
-  
+
   class GET {
-    class given_a_blank_request {
-      Because of = () -> response = when().get("/person/name");
-      It has_status_200 = () -> response.then().statusCode(200);
-      It content_is_json = () -> response.then().contentType("application/json");
-      It contains_the_persons_first_name = () -> response.then().body("firstName", equalTo("Bob"));
+    class given_the_id_for_an_unknown_person {
+      It responds_204;
+    }
+
+    class given_a_name_request {
+      class given_the_id_for_a_known_person {
+        Because of = () -> response = when().get("/people/42/name");
+        It has_status_200 = () -> response.then().statusCode(200);
+        It content_is_json = () -> response.then().contentType("application/json");
+        It contains_the_specified_persons_first_name = () -> response.then().body("firstName", equalTo("Bob"));
+      }
     }
   }
 

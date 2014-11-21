@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "NameServlet", urlPatterns = "/person/name")
-public class NameServlet extends HttpServlet {
+@WebServlet(name = "NameServlet", urlPatterns = "/people/*")
+public class PersonServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     response.setContentType(jsonContentType().toString());
     response.getWriter().println("{\"firstName\": \"Bob\"}");
