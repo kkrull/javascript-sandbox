@@ -1,31 +1,36 @@
 package com.github.kkrull.greeting;
 
+import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.WebRequest;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.servletunit.ServletRunner;
+import com.meterware.servletunit.ServletUnitClient;
 import info.javaspec.dsl.Because;
+import info.javaspec.dsl.Cleanup;
+import info.javaspec.dsl.Establish;
 import info.javaspec.dsl.It;
 import info.javaspec.runner.JavaSpecRunner;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
 
 @RunWith(JavaSpecRunner.class)
 public class NameServletTest {
-  private final NameServlet subject = new NameServlet();
-  private final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-  private final HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+  private final ServletRunner runner = new ServletRunner();
+  private ServletUnitClient client;
+  private WebRequest request;
+  private WebResponse response;
 
-  class doGet {
-    class given_a_valid_request {
-      Because of = () -> subject.doGet(request, response);
-      It sets_status_200 = () -> verify(response).setStatus(200);
-      It sets_a_json_content_type = () -> verify(response).setContentType("application/json");
-      It responds_with_the_persons_name;
+  Establish start_servlet = () -> {
+    runner.registerServlet("person/name", NameServlet.class.getName());
+    client = runner.newClient();
+  };
+  Cleanup kill_servlet = () -> runner.shutDown();
+
+  class GET {
+    class given_a_blank_request {
+      Establish that = () -> request = new GetMethodWebRequest("http://localhost/person/name");
+      Because of = () -> response = client.getResponse(request);
+      It response_has_status_200 = () -> Assert.assertEquals(200, response.getResponseCode());
     }
   }
 }
