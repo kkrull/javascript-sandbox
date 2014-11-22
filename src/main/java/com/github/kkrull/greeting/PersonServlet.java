@@ -1,7 +1,5 @@
 package com.github.kkrull.greeting;
 
-import sun.misc.Regexp;
-
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import javax.servlet.ServletException;
@@ -21,16 +19,14 @@ public final class PersonServlet extends HttpServlet {
     this.gateway = gateway;
   }
 
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    Pattern requestPattern = Pattern.compile("/(\\d+)/name");
-    Matcher matcher = requestPattern.matcher(request.getPathInfo());
-    if(!matcher.matches()) {
+  protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+    PersonRequest request = parseRequest(req);
+    if(request == null) {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       return;
     }
 
-    String id = matcher.group(1);
-    String firstName = gateway.firstName(Long.parseLong(id));
+    String firstName = gateway.firstName(request.id);
     if(firstName == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       return;
@@ -41,15 +37,35 @@ public final class PersonServlet extends HttpServlet {
     response.getWriter().println(serialized);
   }
 
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  private static PersonRequest parseRequest(HttpServletRequest httpRequest) {
+    Pattern parameterPattern = Pattern.compile("/(\\d+)/name");
+    Matcher matcher = parameterPattern.matcher(httpRequest.getPathInfo());
+    if(!matcher.matches()) {
+      return null;
+    }
+
+    String id = matcher.group(1);
+    return new PersonRequest(id == null ? null : Long.parseLong(id));
+  }
+
+  private static class PersonRequest {
+    public final Long id;
+
+    public PersonRequest(Long id) {
+      this.id = id;
+    }
+  }
+
   private MimeType jsonContentType() {
     try {
       return new MimeType("application/json");
     } catch(MimeTypeParseException e) {
       throw new MimeTypeException(e);
     }
-  }
-
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   }
 
   static class MimeTypeException extends RuntimeException {
