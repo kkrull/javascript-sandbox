@@ -21,56 +21,42 @@ public final class PersonServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
     PersonRequest request = parseRequest(req);
-    if(request == null) {
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      return;
-    }
-
-    if("name".equals(request.requested)) {
-      String firstName = gateway.firstName(request.id);
-      if(firstName == null) {
-        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        return;
-      }
-
-      response.setContentType(jsonContentType().toString());
-      String serialized = String.format("{\"firstName\": \"%s\"}", firstName);
-      response.getWriter().println(serialized);
-      return;
-    }
-
-    Person person = gateway.get(request.id);
-    response.setContentType(jsonContentType().toString());
-    String serialized = String.format("{\"id\": %d, \"firstName\": \"%s\"}", person.id, person.firstName);
-    response.getWriter().println(serialized);
+    request.respond(response);
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     throw new UnsupportedOperationException();
   }
 
-  private static PersonRequest parseRequest(HttpServletRequest httpRequest) {
+  private PersonRequest parseRequest(HttpServletRequest httpRequest) {
     Pattern parameterPattern = Pattern.compile("^/(\\d+)(/(name)?)?$");
     Matcher matcher = parameterPattern.matcher(httpRequest.getPathInfo());
-    System.out.printf("pathInfo=%s\n", httpRequest.getPathInfo());
     if(!matcher.matches()) {
-      return null;
+      return response -> response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 
-    String id = matcher.group(1);
+    PersonRequest unknownPersonRequest = response -> response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    Long id = Long.parseLong(matcher.group(1));
     String requested = matcher.group(3);
-    System.out.printf("- id=%s, requested=%s\n", id, requested);
-    return new PersonRequest(id == null ? null : Long.parseLong(id), requested);
+    if("name".equals(requested)) {
+      String firstName = gateway.firstName(id);
+      return firstName == null ? unknownPersonRequest : response -> {
+        response.setContentType(jsonContentType().toString());
+        String serialized = String.format("{\"firstName\": \"%s\"}", firstName);
+        response.getWriter().println(serialized);
+      };
+    } else {
+      Person person = gateway.get(id);
+      return person == null ? unknownPersonRequest : response -> {
+        response.setContentType(jsonContentType().toString());
+        String serialized = String.format("{\"id\": %d, \"firstName\": \"%s\"}", person.id, person.firstName);
+        response.getWriter().println(serialized);
+      };
+    }
   }
 
-  private static class PersonRequest {
-    public final Long id;
-    public final String requested;
-
-    public PersonRequest(Long id, String requested) {
-      this.id = id;
-      this.requested = requested;
-    }
+  private interface PersonRequest {
+    public void respond(HttpServletResponse response) throws IOException;
   }
 
   private MimeType jsonContentType() {
