@@ -26,14 +26,22 @@ public final class PersonServlet extends HttpServlet {
       return;
     }
 
-    String firstName = gateway.firstName(request.id);
-    if(firstName == null) {
-      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    if("name".equals(request.requested)) {
+      String firstName = gateway.firstName(request.id);
+      if(firstName == null) {
+        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        return;
+      }
+
+      response.setContentType(jsonContentType().toString());
+      String serialized = String.format("{\"firstName\": \"%s\"}", firstName);
+      response.getWriter().println(serialized);
       return;
     }
 
+    Person person = gateway.get(request.id);
     response.setContentType(jsonContentType().toString());
-    String serialized = String.format("{\"firstName\": \"%s\"}", firstName);
+    String serialized = String.format("{\"id\": %d, \"firstName\": \"%s\"}", person.id, person.firstName);
     response.getWriter().println(serialized);
   }
 
@@ -42,21 +50,26 @@ public final class PersonServlet extends HttpServlet {
   }
 
   private static PersonRequest parseRequest(HttpServletRequest httpRequest) {
-    Pattern parameterPattern = Pattern.compile("/(\\d+)/name");
+    Pattern parameterPattern = Pattern.compile("^/(\\d+)(/(name)?)?$");
     Matcher matcher = parameterPattern.matcher(httpRequest.getPathInfo());
+    System.out.printf("pathInfo=%s\n", httpRequest.getPathInfo());
     if(!matcher.matches()) {
       return null;
     }
 
     String id = matcher.group(1);
-    return new PersonRequest(id == null ? null : Long.parseLong(id));
+    String requested = matcher.group(3);
+    System.out.printf("- id=%s, requested=%s\n", id, requested);
+    return new PersonRequest(id == null ? null : Long.parseLong(id), requested);
   }
 
   private static class PersonRequest {
     public final Long id;
+    public final String requested;
 
-    public PersonRequest(Long id) {
+    public PersonRequest(Long id, String requested) {
       this.id = id;
+      this.requested = requested;
     }
   }
 
