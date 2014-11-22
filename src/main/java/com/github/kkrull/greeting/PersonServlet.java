@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "NameServlet", urlPatterns = "/people/*")
 public final class PersonServlet extends HttpServlet {
@@ -21,16 +22,16 @@ public final class PersonServlet extends HttpServlet {
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    System.out.printf("requestUri=%s, pathInfo=%s\n", request.getRequestURI(), request.getPathInfo());
-    if(!request.getPathInfo().matches("/(\\d+)/name")) {
-      System.out.printf("Responding BAD_REQUEST\n");
+    Pattern requestPattern = Pattern.compile("/(\\d+)/name");
+    Matcher matcher = requestPattern.matcher(request.getPathInfo());
+    if(!matcher.matches()) {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       return;
     }
 
-    String firstName = gateway.firstName(42);
+    String id = matcher.group(1);
+    String firstName = gateway.firstName(Long.parseLong(id));
     if(firstName == null) {
-      System.out.printf("Responding NOT_FOUND\n");
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
