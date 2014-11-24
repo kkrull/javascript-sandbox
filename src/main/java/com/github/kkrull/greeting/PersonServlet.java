@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 public final class PersonServlet extends HttpServlet {
   private final PersonGateway gateway;
 
+  public PersonServlet() {
+    this.gateway = new OnePersonGateway();
+  }
+
   PersonServlet(PersonGateway gateway) {
     this.gateway = gateway;
   }
@@ -69,5 +73,19 @@ public final class PersonServlet extends HttpServlet {
 
   static class MimeTypeException extends RuntimeException {
     MimeTypeException(Exception cause) { super(cause); }
+  }
+
+  private static class OnePersonGateway implements PersonGateway {
+    private static final Person ONLY_PERSON = new Person(42, "Duke");
+
+    @Override
+    public String firstName(long id) {
+      return id == ONLY_PERSON.id ? ONLY_PERSON.firstName : null;
+    }
+
+    @Override
+    public Person get(long id) {
+      return id == ONLY_PERSON.id ? ONLY_PERSON : null;
+    }
   }
 }
