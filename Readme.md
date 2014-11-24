@@ -234,8 +234,8 @@ development and testing with Backbone.
 
 Production:
 
-- Some real CRUD with a servlet, to show how Backbone handles that (and to get the java side working).
 - Use webjars to manage dependencies on JavaScript libraries without copying their source into source control.
+- [GSON](https://code.google.com/p/google-gson/) library for (de-)serializing JSON into POJOs.
 
 Testing:
 
@@ -244,7 +244,3 @@ Testing:
 - Shared examples and shared context in Jasmine specs.
 - JSTestDriver or similar plugin that runs Jasmine tests in IntelliJ.
 - [Karma](http://karma-runner.github.io/0.10/index.html) may be a good alternative.
-
-Server side:
-
-- [GSON](https://code.google.com/p/google-gson/) library for (de-)serializing JSON into POJOs.
