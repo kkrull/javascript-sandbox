@@ -29,34 +29,25 @@ public final class PersonServlet extends HttpServlet {
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    throw new UnsupportedOperationException();
+    response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
   }
 
   private PersonRequest parseRequest(HttpServletRequest httpRequest) {
-    Pattern parameterPattern = Pattern.compile("^/(\\d+)(/(name)?)?$");
+    Pattern parameterPattern = Pattern.compile("^/(\\d+)/?$");
     Matcher matcher = parameterPattern.matcher(httpRequest.getPathInfo());
     if(!matcher.matches()) {
       return response -> response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 
-    PersonRequest unknownPersonRequest = response -> response.setStatus(HttpServletResponse.SC_NOT_FOUND);
     Long id = Long.parseLong(matcher.group(1));
-    String requested = matcher.group(3);
-    if("name".equals(requested)) {
-      String firstName = gateway.firstName(id);
-      return firstName == null ? unknownPersonRequest : response -> {
-        response.setContentType(jsonContentType().toString());
-        String serialized = String.format("{\"firstName\": \"%s\"}", firstName);
-        response.getWriter().println(serialized);
-      };
-    } else {
-      Person person = gateway.get(id);
-      return person == null ? unknownPersonRequest : response -> {
+    Person person = gateway.get(id);
+    return person == null ?
+      response -> response.setStatus(HttpServletResponse.SC_NOT_FOUND) :
+      response -> {
         response.setContentType(jsonContentType().toString());
         String serialized = String.format("{\"id\": %d, \"firstName\": \"%s\"}", person.id, person.firstName);
         response.getWriter().println(serialized);
       };
-    }
   }
 
   private interface PersonRequest {
