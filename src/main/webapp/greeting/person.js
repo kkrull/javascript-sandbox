@@ -2,5 +2,5 @@ var Person = Backbone.Model.extend({
   defaults: {
     firstName: ''
   },
-  url: '/javascript-sandbox/person/name'
+  urlRoot: '/javascript-sandbox/person'
 });
