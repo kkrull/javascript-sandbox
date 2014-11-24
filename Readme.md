@@ -89,7 +89,7 @@ This looks like a good idea for the long-term (and it's supported by the jasmine
 complexity than is initially warranted for small projects.
 
 
-## Testing with Jasmine
+## Testing client-side with Jasmine
 
 Jasmine tests are integrated with Maven via [jasmine-maven-plugin](http://searls.github.io/jasmine-maven-plugin/).  It
 offers two modes of operation:
@@ -243,8 +243,8 @@ Testing:
 - JavaScript mocking libraries, such as SinonJS.
 - Shared examples and shared context in Jasmine specs.
 - JSTestDriver or similar plugin that runs Jasmine tests in IntelliJ.
-  [Karma](http://karma-runner.github.io/0.10/index.html) may be a good alternative.
-- Servlet testing, while not to be overdone, could be more convenient with a library such as
-  [rest-assured](https://code.google.com/p/rest-assured/).  However, it's not clear how to make
-  [tomcat-embed-core](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat) work
-  at all or how to make [ServletUnit](http://httpunit.sourceforge.net/doc/servletunit-intro.html) work with it.
+- [Karma](http://karma-runner.github.io/0.10/index.html) may be a good alternative.
+
+Server side:
+
+- [GSON](https://code.google.com/p/google-gson/) library for (de-)serializing JSON into POJOs.
