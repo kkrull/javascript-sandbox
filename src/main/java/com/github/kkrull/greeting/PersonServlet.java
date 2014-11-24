@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "NameServlet", urlPatterns = "/people/*")
+@WebServlet(name = "NameServlet", urlPatterns = "/person/*")
 public final class PersonServlet extends HttpServlet {
   private final PersonGateway gateway;
 
